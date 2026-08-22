@@ -1,15 +1,26 @@
 # Portafolio de Game Development AMK | DevLog & Prototipos
 
-<p align="center"><img src="assets/logo.jpg" alt="Logo AMK" width="380" height="350"/></p>
+<p align="center"><img src="assets/logo.jpg" alt="Logo AMK" width="550" height="400"/></p>
 
- ![Game Dev Banner](https://img.shields.io/badge/Status-Active_Developer-brightgreen?style=for-the-badge&logo=gamepad)
+<div align="center">
+
+  ![Game Dev Banner](https://img.shields.io/badge/Status-Active_Developer-brightgreen?style=for-the-badge&logo=gamepad)
+  ![Role Banner](https://img.shields.io/badge/Aspiring-Fullstack_Developer-007ACC?style=for-the-badge&logo=codefactor)
+  ![Focus Banner](https://img.shields.io/badge/Focus-Web_%26_Mobile_Dev-ff2fd0?style=for-the-badge&logo=android)
+  ![Education Banner](https://img.shields.io/badge/Univalle-Systems_Engineering-orange?style=for-the-badge&logo=education)
+
+</div>
+
 ## 👤 Sobre Mí
 
-Hola...! Soy **Andres Adonay Mamani Kantuta**, estudiante de la materia de **Game Development** de 4° Semestre de la carrera de Ingenieria en Sistemas Informaticos de La Universidad Privada del Valle.
+Hola, que tal...! Soy **Andres Adonay Mamani Kantuta**, estudiante de **Ingeniería en Sistemas Informáticos** (4° Semestre) en la Universidad Privada del Valle (Univalle).
 
-* **Intereses:** Desarrollo de videojuegos en plataformas web, desarrollo de paginas web y aplicaciones moviles.
-* **Géneros favoritos de videojuegos:** Platformers 2D, Metroidvanias, juegos de estrategia, moba, etc.
-* **Herramientas de preferencia:** HTML, CSS, JavaScript, Git, Github.
+Apasionado por la tecnología y la creación de experiencias digitales interactivas. Mi enfoque actual combina el aprendizaje de **Game Development** con el **Desarrollo Web y Móvil**, teniendo como meta profesional consolidarme como **Desarrollador Fullstack**. Me motiva construir aplicaciones dinámicas, responsivas e intuitivas que resuelvan problemas reales o brinden entretenimiento de impacto.
+
+* 🎯 **Aspiración:** Desarrollador Fullstack (Web & Mobile).
+* 💡 **Áreas de Interés:** Desarrollo de videojuegos web 2D, aplicaciones móviles multiplataforma, interfaces web interactivas y lógica de backend.
+* 🎮 **Géneros de Videojuegos Favoritos:** Platformers 2D, Metroidvanias, Estrategia, MOBAs y Puzzles Educativos.
+* 🛠️ **Stack y Herramientas:** HTML5, CSS3, JavaScript (Vanilla / Canvas API), Git & GitHub.
 
 ---
 ## 🕹️ Galería de Videojuegos
