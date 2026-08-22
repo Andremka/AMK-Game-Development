@@ -17,12 +17,12 @@ Hola...! Soy **Andres Adonay Mamani Kantuta**, estudiante de la materia de **Gam
 ## 🕹️ Galería de Videojuegos
 
 ### 1. Geometry Math
-![Gameplay](juego-1/media/gameplay.gif)
+![Gameplay](/GeometryMath/img/gameplay2GM.png)
 
 * **Descripción:** Runner educativo donde debes resolver operaciones matemáticas en tiempo real antes de impactar contra los bloques de respuesta.
 * **Género:** Arcade / Puzzle Educativo / Runner
 * **Tecnología:** HTML5 / CSS3 / JavaScript (Vanilla)
-* [Ver Detalles del Juego](./juego-1/)
+* [Ver Detalles del Juego](./GeometryMath/)
 
 ---
 
