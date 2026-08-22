@@ -25,7 +25,7 @@ Hola...! Soy **Andres Adonay Mamani Kantuta**, estudiante de la materia de **Gam
 ---
 
 ### 2. ♻️ EcoSort: Desafío de Reciclaje
-<p align="center"><img src="/EcoSort/img/gameplayES.png" alt="Logo AMK" width="750" height="650"/></p>
+<p align="center"><img src="/EcoSort/img/gameplayES.png" alt="Logo AMK" width="500" height="600"/></p>
 
 * **Descripción:** Videojuego educativo donde debes clasificar residuos en tiempo real dirigiendo su caída hacia el contenedor correcto antes de que toquen el suelo.
 * **Género:** Arcade / Educativo / Habilidad
