@@ -1,8 +1,6 @@
 # Portafolio de Game Development AMK | DevLog & Prototipos
 
-<p align="center">
-  <img src="assets/logo.jpg" alt="Logo AMK" width="380" height="350"/>
-</p>
+<p align="center"><img src="assets/logo.jpg" alt="Logo AMK" width="380" height="350"/></p>
 
  ![Game Dev Banner](https://img.shields.io/badge/Status-Active_Developer-brightgreen?style=for-the-badge&logo=gamepad)
 ## 👤 Sobre Mí
@@ -27,7 +25,7 @@ Hola...! Soy **Andres Adonay Mamani Kantuta**, estudiante de la materia de **Gam
 ---
 
 ### 2. ♻️ EcoSort: Desafío de Reciclaje
-<p align="center"><img src="/EcoSort/img/gameplayES.png" alt="Logo AMK" width="750" height="650"/></p>
+<p align="center"><img src="/EcoSort/img/gameplayES.png" alt="Logo AMK" width="500" height="600"/></p>
 
 * **Descripción:** Videojuego educativo donde debes clasificar residuos en tiempo real dirigiendo su caída hacia el contenedor correcto antes de que toquen el suelo.
 * **Género:** Arcade / Educativo / Habilidad
@@ -36,10 +34,19 @@ Hola...! Soy **Andres Adonay Mamani Kantuta**, estudiante de la materia de **Gam
 ---
 
 ### 3. 🏃 Nutri-Run: Camino al Colegio
-![Nutri-Run Gameplay](NutriRun/img/gameplayNR.png)
+<p align="center"><img src="NutriRun/img/gameplayNR.png" alt="Logo AMK" width="850" height="750"/></p>
 
 * **Descripción:** Endless runner educativo donde debes correr hacia el colegio seleccionando alimentos saludables y esquivando comida chatarra para llegar con vitalidad.
 * **Género:** Arcade / Endless Runner 2D / Educativo
 * **Enlaces:** [Ver Detalles del Juego](./NutriRun/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/NutriRun/NutriRun.html)
+
+---
+
+### 4. 💧 Water Guardian: La Última Reserva
+<p align="center"><img src="WaterGuardian/img/gameplayWG.png" alt="Logo AMK" width="850" height="750"/></p>
+
+* **Descripción:** Videojuego de estrategia y acción en tiempo real donde debes proteger la última fuente de agua potable controlando a un guardián con campo de ralentización, habilidades especiales y recolección de insumos.
+* **Género:** Arcade / Estrategia / Supervivencia
+* **Enlaces:** [Ver Detalles del Juego](./NutriRun/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/WaterGuardian/WaterGuardian.html)
 
 ---
