@@ -61,19 +61,6 @@ El juego combina estrategia, administración de recursos y defensa táctica medi
 
 ---
 
-# 📋 Ficha Técnica
-
-| Parámetro | Detalle |
-|---|---|
-| **Nombre Definitivo** | Defensa del Bolsillo Central |
-| **Género** | Tower Defense / Estrategia / Educativo |
-| **Plataforma** | Web (ejecución directa en navegador) |
-| **Tecnologías** | HTML5 Canvas / CSS3 / JavaScript Vanilla / Web Audio API |
-| **Estilo Visual** | Proyección isométrica 2D con interfaz financiera |
-| **Tema Principal** | Educación financiera y administración responsable del presupuesto |
-
----
-
 # ⌨️ Controles e Instrucciones
 
 El juego utiliza interacción directa mediante mouse o pantalla táctil:
@@ -85,6 +72,17 @@ El juego utiliza interacción directa mediante mouse o pantalla táctil:
 | **Mejorar estructuras** | Seleccionar una torre existente y utilizar recursos |
 | **Reparar defensas** | Acceder al menú de mantenimiento |
 | **Administrar recursos** | Controlar ingresos y gastos desde la interfaz |
+
+---
+
+## 🖼️ Capturas de Pantalla
+
+| Vistas del Videojuego |
+| :--- |
+| **1. Pantalla Inicial / Menú Principal**<br>![Inicio](img/inicioBC.png) |
+| **2. Momento de Gameplay y Mapa Isométrico**<br>![Gameplay](img/gameplayBC.png) |
+| **3. Construcción y Mejora de Torres Defensivas**<br>![Torres](img/torresBC.png) |
+| **4. Pantalla de Derrota Financiera**<br>![Derrota](img/derrotaBC.png) |
 
 ---
 
