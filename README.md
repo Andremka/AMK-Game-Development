@@ -50,3 +50,15 @@ Hola...! Soy **Andres Adonay Mamani Kantuta**, estudiante de la materia de **Gam
 * **Enlaces:** [Ver Detalles del Juego](./NutriRun/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/WaterGuardian/WaterGuardian.html)
 
 ---
+
+### 5. 🕯️ El Peso del Silencio
+
+<p align="center"><img src="PesoDelSilencio/img/gameplayEPS.png" alt="El Peso del Silencio" width="850" height="750"/></p>
+
+* **Descripción:** Videojuego narrativo de investigación y puzzles donde el jugador debe reparar una tableta corrupta para descubrir la historia oculta detrás del ciberbullying sufrido por Camila. Mediante la reconstrucción de conversaciones, filtrado de archivos y análisis de mensajes, deberá comprender el impacto del acoso digital.
+
+* **Género:** Narrativo / Puzzle / Aventura Interactiva
+
+* **Enlaces:** [Ver Detalles del Juego](./PesoDelSilencio/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/PesoDelSilencio/PesoDelSilencio.html)
+
+---
