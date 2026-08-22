@@ -62,3 +62,13 @@ Hola...! Soy **Andres Adonay Mamani Kantuta**, estudiante de la materia de **Gam
 * **Enlaces:** [Ver Detalles del Juego](./PesoDelSilencio/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/PesoDelSilencio/Peso%20Del%20Silencio.html)
 
 ---
+
+### 6. 💰 Defensa del Bolsillo Central
+
+<p align="center"><img src="DefensaBancoCentral/img/gameplayBC.png" alt="Defensa del Bolsillo Central" width="850" height="750"/></p>
+
+* **Descripción:** Videojuego educativo de estrategia tipo Tower Defense donde el jugador debe proteger su estabilidad financiera administrando un presupuesto limitado, construyendo defensas e invirtiendo recursos para enfrentar gastos inesperados, deudas y amenazas económicas.
+
+* **Género:** Tower Defense / Estrategia / Educativo
+
+* **Enlaces:** [Ver Detalles del Juego](./DefensaBancoCentral/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/DefensaBancoCentral/Defensa%20Banco%20Central.html)
