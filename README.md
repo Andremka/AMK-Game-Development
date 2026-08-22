@@ -29,6 +29,17 @@ Hola...! Soy **Andres Adonay Mamani Kantuta**, estudiante de la materia de **Gam
 ### 2. ♻️ EcoSort: Desafío de Reciclaje
 <p align="center"><img src="/EcoSort/img/gameplayES.png" alt="Logo AMK" width="750" height="650"/></p>
 
-* **Descripción:** Videojuego educativo donde debes clasificar residuos en tiempo real dirigiendo su caída hacia el contenedor correcto antes de que toquen el suelo[cite: 1].
-* **Género:** Arcade / Educativo / Habilidad[cite: 1]
+* **Descripción:** Videojuego educativo donde debes clasificar residuos en tiempo real dirigiendo su caída hacia el contenedor correcto antes de que toquen el suelo.
+* **Género:** Arcade / Educativo / Habilidad
 * **Enlaces:** [Ver Detalles del Juego](./EcoSort/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/EcoSort/EcoSort.html)
+
+---
+
+### 3. 🏃 Nutri-Run: Camino al Colegio
+![Nutri-Run Gameplay](NutriRun/img/gameplayNR.png)
+
+* **Descripción:** Endless runner educativo donde debes correr hacia el colegio seleccionando alimentos saludables y esquivando comida chatarra para llegar con vitalidad.
+* **Género:** Arcade / Endless Runner 2D / Educativo
+* **Enlaces:** [Ver Detalles del Juego](./NutriRun/) | [Jugar Ahora en Navegador!](https://andremka.github.io/AMK-Game-Development/NutriRun/Nutrirun.html)
+
+---
