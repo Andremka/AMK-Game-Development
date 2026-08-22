@@ -25,7 +25,7 @@ Hola...! Soy **Andres Adonay Mamani Kantuta**, estudiante de la materia de **Gam
 * [Ver Detalles del Juego](./GeometryMath/)
 * [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/GeometryMath/) 
 
---- 75771880
+---
 
 ### 2. [Nombre del Juego 2]
 ![Gameplay](juego-2/media/gameplay.png)
