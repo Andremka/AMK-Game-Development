@@ -31,4 +31,4 @@ Hola...! Soy **Andres Adonay Mamani Kantuta**, estudiante de la materia de **Gam
 
 * **Descripción:** Videojuego educativo donde debes clasificar residuos en tiempo real dirigiendo su caída hacia el contenedor correcto antes de que toquen el suelo[cite: 1].
 * **Género:** Arcade / Educativo / Habilidad[cite: 1]
-* **Enlaces:** [Ver Detalles del Juego](./EcoSort/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/EcoSort/)
+* **Enlaces:** [Ver Detalles del Juego](./EcoSort/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/EcoSort/EcoSort.html)
