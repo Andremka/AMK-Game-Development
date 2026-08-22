@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>💧 WATER GUARDIAN: LA ÚLTIMA RESERVA</title>
+<style>
+  :root{
+    --cian:#00e5ff;
+    --magenta:#ff2fd0;
+    --yellow:#ffe600;
+    --green:#39ff6a;
+    --red:#ff3355;
+    --red2:#ff0033;
+    --panel:#141834;
+    --panel-border:#2d356e;
+    --bg1:#1c2350;
+    --bg2:#05060f;
+  }
+
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent; user-select:none;}
+
+  html,body{
+    margin:0; padding:0; width:100%; height:100%;
+    background: radial-gradient(circle, var(--bg1), var(--bg2));
+    font-family:'Segoe UI', Arial, sans-serif;
+    color:#fff;
+    overflow:hidden;
+    touch-action:manipulation;
+  }
+
+  #app{
+    position:relative;
+    width:100vw; height:100vh;
+    min-height:100vh;
+    overflow:hidden;
+  }
+
+  .screen{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding:clamp(10px,3vw,30px);
+    gap:clamp(10px,2vh,20px);
+    background:radial-gradient(circle, var(--bg1), var(--bg2));
+    z-index:20;
+  }
+  .hidden{display:none !important;}
+
+  .title-main{
+    font-size:clamp(28px, 6vw, 56px);
+    font-weight:900;
+    letter-spacing:2px;
+    color:var(--cian);
+    text-shadow:0 0 8px var(--cian), 0 0 20px var(--cian);
+    margin:0;
+  }
+  .title-sub{
+    font-size:clamp(14px, 2.4vw, 20px);
+    font-weight:700;
+    letter-spacing:2px;
+    color:var(--magenta);
+    text-shadow:0 0 8px var(--magenta), 0 0 16px var(--magenta);
+    margin:0 0 10px 0;
+  }
+
+  .panel{
+    background:var(--panel);
+    border:2px solid var(--panel-border);
+    border-radius:14px;
+    box-shadow: inset 0 0 20px rgba(0,229,255,0.08), 0 0 14px rgba(0,0,0,0.6);
+    padding:clamp(10px,2vw,18px);
+  }
+
+  .info-box{
+    max-width:640px;
+    text-align:left;
+    font-size:clamp(12px,1.6vw,15px);
+    line-height:1.5;
+  }
+  .info-box h3{
+    color:var(--yellow);
+    text-shadow:0 0 6px var(--yellow);
+    letter-spacing:2px;
+    margin:6px 0;
+    font-size:clamp(14px,2vw,18px);
+  }
+  .info-box p{margin:4px 0; color:#c9d0ff;}
+
+  /* ===== BUTTONS ===== */
+  .btn{
+    font-family:inherit;
+    font-weight:900;
+    letter-spacing:2px;
+    font-size:clamp(13px,1.8vw,18px);
+    color:#05060f;
+    border:none;
+    border-radius:999px;
+    padding:clamp(12px,1.6vw,16px) clamp(24px,3vw,40px);
+    cursor:pointer;
+    background:linear-gradient(135deg, var(--cian), #0090ff);
+    box-shadow:0 6px 0 #007a99, 0 0 14px var(--cian);
+    transition:transform 0.08s ease;
+  }
+  .btn:active{ transform:translateY(4px); box-shadow:0 2px 0 #007a99, 0 0 14px var(--cian);}
+  .btn.btn-magenta{background:linear-gradient(135deg, var(--magenta), #a300a3); box-shadow:0 6px 0 #7a007a, 0 0 14px var(--magenta);}
+  .btn.btn-magenta:active{box-shadow:0 2px 0 #7a007a, 0 0 14px var(--magenta);}
+  .btn.btn-green{background:linear-gradient(135deg, var(--green), #0a9e3f); box-shadow:0 6px 0 #067a2f, 0 0 14px var(--green); color:#012;}
+  .btn.btn-green:active{box-shadow:0 2px 0 #067a2f, 0 0 14px var(--green);}
+  .btn.btn-yellow{background:linear-gradient(135deg, var(--yellow), #c9a800); box-shadow:0 6px 0 #8a7300, 0 0 14px var(--yellow); color:#231c00;}
+  .btn.btn-yellow:active{box-shadow:0 2px 0 #8a7300, 0 0 14px var(--yellow);}
+  .btn:disabled{ filter:grayscale(0.6) brightness(0.6); cursor:not-allowed; box-shadow:none; }
+
+  /* ===== GAME SCREEN ===== */
+  #gameScreen{ padding:0; justify-content:flex-start; }
+  #gameWrap{
+    position:relative;
+    width:96vw; height:94vh;
+    min-width:320px;
+    margin:1vh auto;
+    display:flex; flex-direction:column;
+    gap:6px;
+  }
+
+  #hud{
+    display:flex; flex-wrap:wrap; gap:8px;
+    align-items:center; justify-content:space-between;
+    padding:8px 12px;
+    z-index:15;
+  }
+  .hud-stat{
+    display:flex; flex-direction:column; align-items:center; min-width:70px;
+  }
+  .hud-stat .lbl{font-size:clamp(9px,1vw,11px); color:#8f9adf; letter-spacing:1px;}
+  .hud-stat .val{font-size:clamp(14px,2vw,20px); font-weight:900; color:var(--yellow); text-shadow:0 0 6px var(--yellow);}
+
+  .bar-group{ display:flex; flex-direction:column; gap:2px; min-width:130px; flex:1; max-width:220px;}
+  .bar-label{font-size:clamp(9px,1vw,11px); letter-spacing:1px; color:#c9d0ff; display:flex; justify-content:space-between;}
+  .bar-outer{
+    width:100%; height:16px; border-radius:10px;
+    background:#050712; border:2px solid var(--panel-border);
+    overflow:hidden;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.8);
+  }
+  .bar-inner{
+    height:100%; border-radius:10px;
+    transition: width 0.25s ease, background 0.3s ease;
+  }
+  #waterBarInner{ background:linear-gradient(90deg, #0090ff, var(--cian)); box-shadow:0 0 10px var(--cian);}
+  #sourceBarInner{ background:linear-gradient(90deg, #0a9e3f, var(--green)); box-shadow:0 0 10px var(--green);}
+  .bar-outer.danger #waterBarInner, .bar-outer.danger #sourceBarInner{
+    background:linear-gradient(90deg, var(--red2), var(--red)) !important;
+    box-shadow:0 0 12px var(--red) !important;
+    animation: dangerPulse 0.6s infinite;
+  }
+  @keyframes dangerPulse{0%,100%{filter:brightness(1);}50%{filter:brightness(1.7);}}
+
+  #gameArea{
+    position:relative;
+    flex:1;
+    border-radius:18px;
+    border:3px solid var(--panel-border);
+    background: radial-gradient(circle at 50% 45%, #10163a 0%, #05060f 75%);
+    overflow:hidden;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.7), 0 0 20px rgba(0,229,255,0.08);
+  }
+  #gameArea.shake{ animation: shakeBad 0.4s; }
+  #gameArea.flash-good{ animation: flashGood 0.9s ease-out; }
+  @keyframes flashGood{
+    0%{ box-shadow: inset 0 0 70px rgba(57,255,106,0.9), inset 0 0 40px rgba(0,0,0,0.7), 0 0 20px rgba(0,229,255,0.08); }
+    100%{ box-shadow: inset 0 0 40px rgba(0,0,0,0.7), 0 0 20px rgba(0,229,255,0.08); }
+  }
+
+  .star{
+    position:absolute; width:3px; height:3px; border-radius:50%;
+    background:#fff; animation:starTwinkle 2.4s infinite ease-in-out;
+  }
+
+  #groundStrip{
+    position:absolute; left:0; right:0; bottom:0; height:10%;
+    background: repeating-linear-gradient(90deg, var(--yellow) 0 22px, #05060f 22px 44px);
+    background-size:80px 100%;
+    animation: groundMove 1.2s linear infinite;
+    opacity:0.65;
+    box-shadow: 0 0 16px rgba(255,230,0,0.4);
+    border-top:2px solid rgba(255,230,0,0.6);
+  }
+  .platform-line{
+    position:absolute; left:2%; right:2%; height:2px;
+    background:repeating-linear-gradient(90deg, rgba(0,229,255,0.5) 0 10px, transparent 10px 20px);
+  }
+
+  #sourceEl{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:clamp(90px,12vw,140px); height:clamp(90px,12vw,140px);
+    border-radius:50%;
+    background: radial-gradient(circle, #103a52, #05141f);
+    border:4px solid var(--cian);
+    box-shadow:0 0 24px var(--cian), inset 0 0 20px rgba(0,229,255,0.3);
+    display:flex; align-items:center; justify-content:center; flex-direction:column;
+    z-index:5;
+    animation: glowPulse 2.4s infinite;
+  }
+  #sourceEl.hit{ animation: sourceDamage 0.4s; }
+  #sourceEl .icon{font-size:clamp(30px,5vw,52px);}
+  #sourceEl .label{font-size:clamp(8px,1vw,11px); letter-spacing:2px; color:#aee9ff; font-weight:900;}
+
+  #playerEl{
+    position:absolute; left:50%; top:72%;
+    width:clamp(64px,8vw,92px); height:clamp(64px,8vw,92px);
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background: radial-gradient(circle, #063a4a, #021018);
+    border:4px solid var(--cian);
+    box-shadow:0 0 20px var(--cian);
+    display:flex; align-items:center; justify-content:center;
+    font-size:clamp(28px,4vw,44px);
+    z-index:8;
+    animation: playerIdle 1.6s ease-in-out infinite;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  #playerEl.dmg{ border-color:var(--red); box-shadow:0 0 22px var(--red); }
+  #playerEl.win{ border-color:var(--green); box-shadow:0 0 24px var(--green); }
+
+  #slowRing{
+    position:absolute; transform:translate(-50%,-50%);
+    border-radius:50%;
+    border:3px dashed rgba(0,229,255,0.97);
+    background:radial-gradient(circle, rgba(0,229,255,0.32), rgba(0,229,255,0.15) 65%, transparent 78%);
+    pointer-events:none;
+    z-index:7;
+    animation: ringSpin 6s linear infinite;
+    transition: width 0.7s ease, height 0.7s ease;
+  }
+  @keyframes ringSpin{ from{ transform:translate(-50%,-50%) rotate(0deg);} to{ transform:translate(-50%,-50%) rotate(360deg);} }
+
+  .enemy{
+    position:absolute; transform:translate(-50%,-50%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    border-radius:50%;
+    cursor:pointer;
+    z-index:6;
+    animation: enemySpawn 0.25s ease-out;
+  }
+  .enemy .eicon{
+    width:100%; height:100%;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:92%;
+    line-height:1;
+    border:3px solid #fff;
+  }
+  .enemy .etype{
+    position:absolute; bottom:-26px; left:50%; transform:translateX(-50%);
+    width:120px; text-align:center;
+    font-size:10px; font-weight:900; letter-spacing:1px;
+    color:#fff; white-space:nowrap;
+    text-shadow:0 0 4px #000, 0 0 4px #000, 0 0 6px currentColor;
+    pointer-events:none;
+  }
+  .enemy .ehp{
+    position:absolute; bottom:-10px; width:90%; height:6px; border-radius:6px;
+    background:#050712; border:1px solid #000; overflow:hidden;
+  }
+  .enemy .ehp i{ display:block; height:100%; background:var(--red); }
+
+  .enemy-leak .eicon{ background:radial-gradient(circle,#2979ff,#0b2a66); border-color:#2979ff; box-shadow:0 0 14px #2979ff;}
+  .enemy-waste .eicon{ background:radial-gradient(circle,#ffe600,#7a6b00); border-color:var(--yellow); box-shadow:0 0 14px var(--yellow);}
+  .enemy-contaminant .eicon{ background:radial-gradient(circle,#c400ff,#3a0055); border-color:var(--magenta); box-shadow:0 0 16px var(--magenta);}
+  .enemy-crisis .eicon{ background:radial-gradient(circle,#ff0033,#4d0011); border-color:var(--red); box-shadow:0 0 26px var(--red); }
+  .enemy-tank .eicon{ background:radial-gradient(circle,#ff7b00,#4d2400); border-color:#ff7b00; box-shadow:0 0 22px #ff7b00; }
+
+  .enemy.slowed .eicon{ filter:brightness(0.75) saturate(1.4); box-shadow:0 0 18px var(--cian), inset 0 0 10px var(--cian); border-color:var(--cian); }
+
+  /* ===== RECOLECTABLES DE AGUA ===== */
+  .pickup{
+    position:absolute; transform:translate(-50%,-50%);
+    display:flex; align-items:center; justify-content:center;
+    border-radius:50%;
+    cursor:pointer;
+    z-index:6;
+    animation: enemySpawn 0.25s ease-out;
+  }
+  .pickup .picon{
+    width:100%; height:100%;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:85%;
+    border:3px solid #fff;
+    animation: pickupBob 1.5s ease-in-out infinite;
+  }
+  .pickup-drop .picon{ background:radial-gradient(circle,#00e5ff,#003a48); border-color:var(--cian); box-shadow:0 0 18px var(--cian); }
+  .pickup-bottle .picon{ background:radial-gradient(circle,#39ff6a,#0a3a1a); border-color:var(--green); box-shadow:0 0 18px var(--green); }
+  .pickup.pop{ animation: correctPulse 0.35s ease-out forwards; pointer-events:none; }
+  .pickup.fading{ animation: pickupFade 0.5s ease-in forwards; pointer-events:none; }
+  @keyframes pickupBob{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-7px);} }
+  @keyframes pickupFade{ 0%{opacity:1; transform:translate(-50%,-50%) scale(1);} 100%{opacity:0; transform:translate(-50%,-50%) scale(0.4);} }
+
+  .enemy.pop{ animation: correctPulse 0.35s ease-out forwards; pointer-events:none; }
+
+  #feedbackText{
+    position:absolute; left:50%; top:38%; transform:translate(-50%,-50%);
+    font-size:clamp(20px,4vw,40px);
+    font-weight:900; letter-spacing:2px;
+    z-index:30; pointer-events:none;
+    opacity:0;
+    white-space:nowrap;
+  }
+  #feedbackText.show{ animation: floatFeedback 1.3s ease-out; }
+  #feedbackText.good{ color:var(--green); text-shadow:0 0 10px var(--green), 0 0 24px var(--green);}
+  #feedbackText.bad{ color:var(--red); text-shadow:0 0 10px var(--red), 0 0 24px var(--red);}
+  #feedbackText.info{ color:var(--yellow); text-shadow:0 0 10px var(--yellow), 0 0 24px var(--yellow);}
+
+  #actionBar{
+    display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+    padding:8px;
+  }
+  .action-btn{
+    display:flex; flex-direction:column; align-items:center; gap:2px;
+    min-width:clamp(90px,11vw,120px);
+    padding:8px 10px;
+    border-radius:16px;
+    border:none; cursor:pointer;
+    font-family:inherit; font-weight:900; letter-spacing:1px;
+    font-size:clamp(11px,1.4vw,14px);
+    color:#05060f;
+    transition:transform 0.08s;
+    position:relative;
+  }
+  .action-btn:active{ transform:translateY(4px); }
+  .action-btn .aicon{font-size:clamp(18px,2.4vw,26px);}
+  .action-btn.repair{ background:linear-gradient(135deg,var(--green),#0a9e3f); box-shadow:0 6px 0 #067a2f, 0 0 12px var(--green);}
+  .action-btn.shield{ background:linear-gradient(135deg,var(--cian),#0090ff); box-shadow:0 6px 0 #007a99, 0 0 12px var(--cian);}
+  .action-btn.ability{ background:linear-gradient(135deg,var(--magenta),#a300a3); box-shadow:0 6px 0 #7a007a, 0 0 12px var(--magenta);}
+  .action-btn:disabled{ filter:grayscale(0.7) brightness(0.55); cursor:not-allowed; box-shadow:none;}
+  .cd-label{font-size:10px; color:#111;}
+
+  /* ===== UPGRADE / OVERLAYS ===== */
+  #upgradeScreen, #victoryScreen, #defeatScreen{ z-index:40; }
+  .upgrade-cards{ display:flex; gap:16px; flex-wrap:wrap; justify-content:center; max-width:900px; }
+  .upgrade-card{
+    width:clamp(160px,20vw,230px);
+    padding:16px;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    cursor:pointer;
+    transition:transform 0.15s, box-shadow 0.15s;
+  }
+  .upgrade-card:hover{ transform:translateY(-6px) scale(1.03); box-shadow:0 0 20px var(--cian), inset 0 0 20px rgba(0,229,255,0.1);}
+  .upgrade-card .uicon{font-size:clamp(30px,4vw,46px);}
+  .upgrade-card .uname{ font-weight:900; letter-spacing:1px; color:var(--yellow); text-shadow:0 0 6px var(--yellow); font-size:clamp(13px,1.6vw,16px);}
+  .upgrade-card .udesc{ font-size:clamp(11px,1.3vw,13px); color:#c9d0ff; }
+
+  .stat-line{ font-size:clamp(13px,1.8vw,17px); color:#c9d0ff; margin:2px 0;}
+  .stat-line b{ color:var(--yellow); text-shadow:0 0 6px var(--yellow);}
+
+  #mobileControls{ display:none; }
+  @media (pointer:coarse){
+    #mobileControls{ display:flex; }
+  }
+
+  @keyframes correctPulse{
+    0%{transform:translate(-50%,-50%) scale(1); filter:brightness(1);}
+    50%{transform:translate(-50%,-50%) scale(1.4); filter:brightness(1.9);}
+    100%{transform:translate(-50%,-50%) scale(0); filter:brightness(1); opacity:0;}
+  }
+  @keyframes shakeBad{
+    0%,100%{transform:translateX(0);}
+    20%{transform:translateX(-10px);}
+    40%{transform:translateX(10px);}
+    60%{transform:translateX(-8px);}
+    80%{transform:translateX(8px);}
+  }
+  @keyframes floatFeedback{
+    0%{opacity:0; transform:translate(-50%,-40%) scale(0.5);}
+    20%{opacity:1; transform:translate(-50%,-50%) scale(1.25);}
+    75%{opacity:1; transform:translate(-50%,-50%) scale(1);}
+    100%{opacity:0; transform:translate(-50%,-62%) scale(1.3);}
+  }
+  @keyframes groundMove{ from{background-position:0 0;} to{background-position:-80px 0;} }
+  @keyframes starTwinkle{ 0%,100%{opacity:0.25;} 50%{opacity:1;} }
+  @keyframes playerIdle{ 0%,100%{transform:translate(-50%,-50%) translateY(0);} 50%{transform:translate(-50%,-50%) translateY(-8px);} }
+  @keyframes glowPulse{ 0%,100%{box-shadow:0 0 20px var(--cian);} 50%{box-shadow:0 0 36px var(--cian);} }
+  @keyframes enemySpawn{ 0%{transform:translate(-50%,-50%) scale(0); opacity:0;} 100%{transform:translate(-50%,-50%) scale(1); opacity:1;} }
+  @keyframes sourceDamage{ 0%,100%{filter:brightness(1);} 50%{filter:brightness(2) hue-rotate(60deg);} }
+
+  ::-webkit-scrollbar{ display:none; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ===================== START SCREEN ===================== -->
+  <div id="startScreen" class="screen">
+    <h1 class="title-main">💧 WATER GUARDIAN</h1>
+    <p class="title-sub">LA ÚLTIMA RESERVA</p>
+    <div class="panel info-box">
+      <h3>⚠ LA CRISIS HÍDRICA HA COMENZADO</h3>
+      <p>Eres el último Guardián del Agua. Protege la última reserva del planeta de fugas, contaminantes, desperdicio y crisis extremas durante 4 niveles.</p>
+      <h3>🎮 CONTROLES</h3>
+      <p>🖥 Escritorio: <b>WASD / Flechas</b> mueve al guardián. Toca contacto con un enemigo para dañarlo. <b>Clic</b> sobre un enemigo = ataque directo. <b>ESPACIO</b> = habilidad especial (Pulso Purificador).</p>
+      <p>🌀 El guardián emite un <b>campo de ralentización</b>: todo enemigo dentro de su radio circular reduce su velocidad drásticamente. ¡Úsalo para ganar tiempo! Ten en cuenta que el radio se irá reduciendo en los niveles más avanzados.</p>
+      <p>📱 Móvil: toca a los enemigos para atacarlos y usa los botones inferiores para Reparar, Escudo y Habilidad.</p>
+      <h3>🎯 OBJETIVO</h3>
+      <p>No dejes que la barra de <b style="color:#00e5ff">AGUA</b> ni la vida de la <b style="color:#39ff6a">RESERVA</b> lleguen a cero. Sobrevive las 4 rondas de cada nivel y mejora tu equipo entre oleadas.</p>
+      <p>💧🧴 Recoge las <b>gotas y botellas de agua</b> que aparecen en el campo (tócalas o haz clic) para recuperar parte de tu barra de agua.</p>
+      <p>🏭 A partir de la mitad del juego aparecerá el <b>Vertido Industrial</b>, un enemigo con mucha vida que tardará más en caer.</p>
+    </div>
+    <button class="btn" id="startBtn">▶ INICIAR MISIÓN</button>
+  </div>
+
+  <!-- ===================== GAME SCREEN ===================== -->
+  <div id="gameScreen" class="screen hidden">
+    <div id="gameWrap">
+      <div id="hud" class="panel">
+        <div class="hud-stat"><span class="lbl">NIVEL</span><span class="val" id="hudLevel">1</span></div>
+        <div class="hud-stat"><span class="lbl">OLEADA</span><span class="val" id="hudWave">1/3</span></div>
+        <div class="bar-group">
+          <div class="bar-label"><span>💧 AGUA</span><span id="waterPct">100%</span></div>
+          <div class="bar-outer" id="waterBarOuter"><div class="bar-inner" id="waterBarInner" style="width:100%"></div></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-label"><span>🛢 RESERVA</span><span id="sourcePct">100%</span></div>
+          <div class="bar-outer" id="sourceBarOuter"><div class="bar-inner" id="sourceBarInner" style="width:100%"></div></div>
+        </div>
+        <div class="hud-stat"><span class="lbl">PUNTOS</span><span class="val" id="hudScore">0</span></div>
+        <div class="hud-stat"><span class="lbl">TIEMPO</span><span class="val" id="hudTime">00:00</span></div>
+      </div>
+
+      <div id="gameArea">
+        <div id="groundStrip"></div>
+        <div class="platform-line" style="top:20%"></div>
+        <div class="platform-line" style="top:80%"></div>
+        <div id="sourceEl">
+          <div class="icon">🛢️</div>
+          <div class="label">RESERVA</div>
+        </div>
+        <div id="playerEl">🧑‍🔧</div>
+        <div id="slowRing"></div>
+        <div id="feedbackText"></div>
+      </div>
+
+      <div id="actionBar" class="panel">
+        <button class="action-btn repair" id="btnRepair"><span class="aicon">🔧</span>REPARAR<span class="cd-label" id="cdRepair"></span></button>
+        <button class="action-btn shield" id="btnShield"><span class="aicon">🛡</span>ESCUDO<span class="cd-label" id="cdShield"></span></button>
+        <button class="action-btn ability" id="btnAbility"><span class="aicon">⚡</span>PULSO (ESPACIO)<span class="cd-label" id="cdAbility"></span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== UPGRADE SCREEN ===================== -->
+  <div id="upgradeScreen" class="screen hidden">
+    <h1 class="title-main" style="font-size:clamp(20px,3.5vw,34px);">✅ ¡OLEADA SUPERADA!</h1>
+    <p class="title-sub" id="upgradeSubtitle">ELIGE UNA MEJORA</p>
+    <div class="upgrade-cards" id="upgradeCards"></div>
+  </div>
+
+  <!-- ===================== VICTORY SCREEN ===================== -->
+  <div id="victoryScreen" class="screen hidden">
+    <h1 class="title-main" style="color:var(--green); text-shadow:0 0 8px var(--green),0 0 20px var(--green);">🏆 ¡RESERVA SALVADA!</h1>
+    <p class="title-sub" style="color:var(--green); text-shadow:0 0 8px var(--green);">HAS PROTEGIDO EL AGUA DEL PLANETA</p>
+    <div class="panel">
+      <p class="stat-line">Puntuación final: <b id="vScore">0</b></p>
+      <p class="stat-line">Tiempo sobrevivido: <b id="vTime">00:00</b></p>
+      <p class="stat-line">Niveles completados: <b id="vLevel">4/4</b></p>
+    </div>
+    <button class="btn btn-green" id="restartBtnVictory">🔁 JUGAR OTRA VEZ</button>
+  </div>
+
+  <!-- ===================== DEFEAT SCREEN ===================== -->
+  <div id="defeatScreen" class="screen hidden">
+    <h1 class="title-main" style="color:var(--red); text-shadow:0 0 8px var(--red),0 0 20px var(--red);">💥 RESERVA PERDIDA</h1>
+    <p class="title-sub" style="color:var(--red); text-shadow:0 0 8px var(--red);">LA ÚLTIMA RESERVA SE HA AGOTADO</p>
+    <div class="panel">
+      <p class="stat-line">Puntuación final: <b id="dScore">0</b></p>
+      <p class="stat-line">Nivel alcanzado: <b id="dLevel">1</b></p>
+      <p class="stat-line">Oleada alcanzada: <b id="dWave">1</b></p>
+      <p class="stat-line">Tiempo sobrevivido: <b id="dTime">00:00</b></p>
+    </div>
+    <button class="btn" id="restartBtnDefeat">🔁 REINTENTAR</button>
+  </div>
+
+</div>
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   CONFIGURACIÓN GENERAL
+   ============================================================ */
+var ENEMY_TYPES = {
+  leak:        { icon:"🚰", hp:20,  speed:0.085, damage:8,  waterDrain:3,  points:10, label:"Fuga", color:"#2979ff" },
+  waste:       { icon:"🗑️", hp:24,  speed:0.140, damage:6,  waterDrain:8,  points:15, label:"Desperdicio", color:"#ffe600" },
+  contaminant: { icon:"☣️", hp:36,  speed:0.075, damage:14, waterDrain:5,  points:25, label:"Contaminante", color:"#ff2fd0" },
+  tank:        { icon:"🏭", hp:140, speed:0.050, damage:20, waterDrain:10, points:60, label:"Vertido Industrial", color:"#ff7b00" },
+  crisis:      { icon:"🌪️", hp:95,  speed:0.065, damage:30, waterDrain:15, points:80, label:"Crisis Extrema", color:"#ff3355" }
+};
+
+var PICKUP_TYPES = {
+  drop:   { icon:"💧", min:3, max:4, label:"Gota de Agua" },
+  bottle: { icon:"🧴", min:7, max:8, label:"Botella de Agua" }
+};
+
+var LEVELS = [
+  { name:"NIVEL 1 · PRIMER PROBLEMA", waves:[
+      { spawnInterval:2200, list:[{type:"leak",count:4}] },
+      { spawnInterval:1900, list:[{type:"leak",count:5}] },
+      { spawnInterval:1600, list:[{type:"leak",count:6},{type:"waste",count:1}] }
+  ]},
+  { name:"NIVEL 2 · CRISIS CRECIENTE", waves:[
+      { spawnInterval:1300, list:[{type:"leak",count:6},{type:"waste",count:3}] },
+      { spawnInterval:1150, list:[{type:"leak",count:6},{type:"waste",count:4}] },
+      { spawnInterval:1000, list:[{type:"leak",count:7},{type:"waste",count:5}] }
+  ]},
+  { name:"NIVEL 3 · CONTAMINACIÓN", waves:[
+      { spawnInterval:1100, list:[{type:"leak",count:5},{type:"waste",count:3},{type:"contaminant",count:2},{type:"tank",count:1}] },
+      { spawnInterval:1000, list:[{type:"leak",count:5},{type:"waste",count:4},{type:"contaminant",count:3},{type:"tank",count:1}] },
+      { spawnInterval:900,  list:[{type:"leak",count:6},{type:"waste",count:5},{type:"contaminant",count:4},{type:"tank",count:2}] }
+  ]},
+  { name:"NIVEL FINAL · LA ÚLTIMA RESERVA", waves:[
+      { spawnInterval:850, list:[{type:"leak",count:6},{type:"waste",count:6},{type:"contaminant",count:4},{type:"tank",count:2}] },
+      { spawnInterval:800, list:[{type:"leak",count:7},{type:"waste",count:6},{type:"contaminant",count:5},{type:"tank",count:2}] },
+      { spawnInterval:750, list:[{type:"leak",count:5},{type:"waste",count:5},{type:"contaminant",count:4},{type:"tank",count:1},{type:"crisis",count:2}] }
+  ]}
+];
+
+var UPGRADE_POOL = [
+  { id:"filtro", icon:"💧", name:"FILTRO AVANZADO", desc:"Reduce en 25% el daño y consumo de agua causado por contaminantes.",
+    apply:function(s){ s.filterLevel++; } },
+  { id:"reparacion", icon:"🔧", name:"REPARACIÓN RÁPIDA", desc:"+15 de reparación y -1s de espera para reparar.",
+    apply:function(s){ s.repairAmount+=15; s.repairCooldownMs=Math.max(1800,s.repairCooldownMs-1000); } },
+  { id:"eficiente", icon:"⚡", name:"SISTEMA EFICIENTE", desc:"Reduce 20% el consumo pasivo de agua.",
+    apply:function(s){ s.waterDrainMult*=0.8; } },
+  { id:"escudo", icon:"🛡", name:"ESCUDO PROTECTOR", desc:"+2s de duración de escudo y -15% de costo de agua.",
+    apply:function(s){ s.shieldDurationMs+=2000; s.shieldCostMult*=0.85; } },
+  { id:"ataque", icon:"🌊", name:"ONDA CINÉTICA", desc:"+6 de poder de ataque directo del guardián.",
+    apply:function(s){ s.attackPower+=6; } }
+];
+
+/* ============================================================
+   ESTADO DEL JUEGO
+   ============================================================ */
+var state = null;
+
+function freshState(){
+  return {
+    running:false,
+    levelIndex:0,
+    waveIndex:0,
+    score:0,
+    startTime:0,
+    elapsedMs:0,
+    water:100, waterMax:100,
+    sourceHP:100, sourceHPMax:100,
+    // upgrades / stats
+    filterLevel:0,
+    repairAmount:15, repairCooldownMs:4000,
+    waterDrainMult:1,
+    shieldDurationMs:3000, shieldCostMult:1,
+    attackPower:12,
+    // cooldown timers (timestamp ms when available again)
+    repairReadyAt:0,
+    shieldReadyAt:0,
+    abilityReadyAt:0,
+    shieldActiveUntil:0,
+    // entities
+    enemies:[],
+    enemyIdSeq:1,
+    pickups:[],
+    pickupIdSeq:1,
+    pickupTimer:3500,
+    player:{ x:0.5, y:0.72, slowRadius:0.14 },
+    keys:{},
+    spawnedInWave:0, totalInWave:0, spawnQueue:[], spawnTimer:0, waveActive:false,
+    lastFrame:0
+  };
+}
+
+/* ============================================================
+   UTILIDADES DOM
+   ============================================================ */
+function $(id){ return document.getElementById(id); }
+function showScreen(id){
+  var screens=["startScreen","gameScreen","upgradeScreen","victoryScreen","defeatScreen"];
+  for(var i=0;i<screens.length;i++){
+    $(screens[i]).classList.toggle("hidden", screens[i]!==id);
+  }
+}
+function fmtTime(ms){
+  var totalSec=Math.floor(ms/1000);
+  var m=Math.floor(totalSec/60); var s=totalSec%60;
+  return (m<10?"0":"")+m+":"+(s<10?"0":"")+s;
+}
+function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+
+function currentSlowRadius(){
+  // el maximo se reduce ligeramente con cada nivel
+  var maxR = Math.max(0.078, 0.115 - (state.levelIndex*0.011));
+  // el minimo queda casi del mismo tamaño que el icono del guardian
+  var minR = 0.052;
+  // el radio se mantiene fijo en un tamaño durante ~3.8s antes de cambiar al otro
+  var stepMs = 3800;
+  var phase = Math.floor(state.elapsedMs/stepMs) % 2;
+  return phase===0 ? maxR : minR;
+}
+
+function showFeedback(text, type){
+  var el=$("feedbackText");
+  el.className=""; // reset
+  void el.offsetWidth; // reflow restart
+  el.textContent=text;
+  el.classList.add(type||"info");
+  el.classList.add("show");
+  clearTimeout(el._t);
+  el._t=setTimeout(function(){ el.classList.remove("show"); }, 1300);
+}
+
+function shakeArea(){
+  var ga=$("gameArea");
+  ga.classList.remove("shake"); void ga.offsetWidth; ga.classList.add("shake");
+}
+
+/* ============================================================
+   ESTRELLAS DE FONDO
+   ============================================================ */
+function buildStars(){
+  var ga=$("gameArea");
+  var old=ga.querySelectorAll(".star");
+  old.forEach(function(s){ s.remove(); });
+  for(var i=0;i<40;i++){
+    var s=document.createElement("div");
+    s.className="star";
+    s.style.left=(Math.random()*100)+"%";
+    s.style.top=(Math.random()*70)+"%";
+    s.style.animationDelay=(Math.random()*2.4)+"s";
+    ga.appendChild(s);
+  }
+}
+
+/* ============================================================
+   HUD
+   ============================================================ */
+function updateHUD(){
+  var lvl=LEVELS[state.levelIndex];
+  $("hudLevel").textContent=(state.levelIndex+1)+"/4";
+  $("hudWave").textContent=(state.waveIndex+1)+"/"+lvl.waves.length;
+  $("hudScore").textContent=state.score;
+  $("hudTime").textContent=fmtTime(state.elapsedMs);
+
+  var wPct=Math.round(clamp(state.water,0,state.waterMax)/state.waterMax*100);
+  var sPct=Math.round(clamp(state.sourceHP,0,state.sourceHPMax)/state.sourceHPMax*100);
+  $("waterPct").textContent=wPct+"%";
+  $("sourcePct").textContent=sPct+"%";
+  $("waterBarInner").style.width=wPct+"%";
+  $("sourceBarInner").style.width=sPct+"%";
+  $("waterBarOuter").classList.toggle("danger", wPct<=25);
+  $("sourceBarOuter").classList.toggle("danger", sPct<=25);
+
+  // action button cooldowns
+  var now=performance.now();
+  setActionState("btnRepair","cdRepair", state.repairReadyAt, now);
+  setActionState("btnShield","cdShield", state.shieldReadyAt, now);
+  setActionState("btnAbility","cdAbility", state.abilityReadyAt, now);
+}
+
+function setActionState(btnId, labelId, readyAt, now){
+  var btn=$(btnId), label=$(labelId);
+  if(readyAt>now){
+    btn.disabled=true;
+    label.textContent=Math.ceil((readyAt-now)/1000)+"s";
+  } else {
+    btn.disabled=false;
+    label.textContent="";
+  }
+}
+
+/* ============================================================
+   GUARDIAN (JUGADOR)
+   ============================================================ */
+function updatePlayerPosition(dt){
+  var speed=0.55; // fraccion de pantalla / seg
+  var dx=0, dy=0;
+  if(state.keys["arrowup"]||state.keys["w"]) dy-=1;
+  if(state.keys["arrowdown"]||state.keys["s"]) dy+=1;
+  if(state.keys["arrowleft"]||state.keys["a"]) dx-=1;
+  if(state.keys["arrowright"]||state.keys["d"]) dx+=1;
+  if(dx!==0||dy!==0){
+    var len=Math.sqrt(dx*dx+dy*dy);
+    dx/=len; dy/=len;
+    state.player.x=clamp(state.player.x+dx*speed*dt, 0.04, 0.96);
+    state.player.y=clamp(state.player.y+dy*speed*dt, 0.10, 0.94);
+  }
+  var pEl=$("playerEl");
+  pEl.style.left=(state.player.x*100)+"%";
+  pEl.style.top=(state.player.y*100)+"%";
+
+  state.player.slowRadius = currentSlowRadius();
+
+  var ring=$("slowRing");
+  var ga=$("gameArea");
+  var diameterPx = state.player.slowRadius*2*ga.clientWidth;
+  ring.style.width=diameterPx+"px";
+  ring.style.height=diameterPx+"px";
+  ring.style.left=(state.player.x*100)+"%";
+  ring.style.top=(state.player.y*100)+"%";
+}
+
+/* ============================================================
+   ENEMIGOS
+   ============================================================ */
+function spawnEnemy(type){
+  var cfg=ENEMY_TYPES[type];
+  var edge=Math.floor(Math.random()*4);
+  var x,y;
+  if(edge===0){ x=Math.random(); y=0.05; }
+  else if(edge===1){ x=Math.random(); y=0.92; }
+  else if(edge===2){ x=0.03; y=0.15+Math.random()*0.7; }
+  else { x=0.97; y=0.15+Math.random()*0.7; }
+
+  var enemy={
+    id:state.enemyIdSeq++,
+    type:type,
+    x:x, y:y,
+    hp:cfg.hp, maxHp:cfg.hp,
+    speed:cfg.speed,
+    damage:cfg.damage,
+    waterDrain:cfg.waterDrain,
+    points:cfg.points,
+    el:null
+  };
+
+  var el=document.createElement("div");
+  var sizeMap={leak:64,waste:66,contaminant:72,tank:96,crisis:120};
+  var size=sizeMap[type]||64;
+  el.className="enemy enemy-"+type;
+  el.style.width=size+"px"; el.style.height=size+"px";
+  el.innerHTML='<div class="eicon">'+cfg.icon+'</div><div class="ehp"><i style="width:100%"></i></div><div class="etype" style="color:'+cfg.color+'">'+cfg.label.toUpperCase()+'</div>';
+  el.addEventListener("pointerdown", function(ev){
+    ev.stopPropagation();
+    attackEnemy(enemy, state.attackPower, true);
+  });
+  $("gameArea").appendChild(el);
+  enemy.el=el;
+  state.enemies.push(enemy);
+  renderEnemy(enemy);
+}
+
+function renderEnemy(enemy){
+  enemy.el.style.left=(enemy.x*100)+"%";
+  enemy.el.style.top=(enemy.y*100)+"%";
+  var hpBar=enemy.el.querySelector(".ehp i");
+  if(hpBar) hpBar.style.width=Math.max(0,(enemy.hp/enemy.maxHp*100))+"%";
+}
+
+function removeEnemy(enemy, animate){
+  var idx=state.enemies.indexOf(enemy);
+  if(idx>=0) state.enemies.splice(idx,1);
+  if(animate){
+    enemy.el.classList.add("pop");
+    setTimeout(function(){ if(enemy.el && enemy.el.parentNode) enemy.el.parentNode.removeChild(enemy.el); }, 320);
+  } else {
+    if(enemy.el && enemy.el.parentNode) enemy.el.parentNode.removeChild(enemy.el);
+  }
+}
+
+function attackEnemy(enemy, dmg, isClick){
+  if(!state.running) return;
+  if(state.enemies.indexOf(enemy)<0) return;
+  enemy.hp-=dmg;
+  if(enemy.hp<=0){
+    state.score+=enemy.points;
+    removeEnemy(enemy, true);
+    var msgs={leak:"¡FUGA REPARADA!", waste:"¡DESPERDICIO ELIMINADO!", contaminant:"¡CONTAMINANTE NEUTRALIZADO!", crisis:"¡CRISIS CONTENIDA!"};
+    if(isClick || Math.random()<0.35) showFeedback(msgs[enemy.type]||"¡ELIMINADO!", "good");
+  } else {
+    renderEnemy(enemy);
+  }
+}
+
+function enemyReachesSource(enemy){
+  if(performance.now() < state.shieldActiveUntil){
+    // escudo activo: el enemigo es repelido sin daño
+    removeEnemy(enemy, true);
+    return;
+  }
+  var dmg=enemy.damage, drain=enemy.waterDrain;
+  if(enemy.type==="contaminant" && state.filterLevel>0){
+    var factor=Math.pow(0.75, state.filterLevel);
+    dmg*=factor; drain*=factor;
+  }
+  state.sourceHP=clamp(state.sourceHP-dmg, 0, state.sourceHPMax);
+  state.water=clamp(state.water-drain, 0, state.waterMax);
+  removeEnemy(enemy, false);
+  shakeArea();
+  $("sourceEl").classList.remove("hit"); void $("sourceEl").offsetWidth; $("sourceEl").classList.add("hit");
+  if(enemy.type==="crisis") showFeedback("¡RESERVA CRÍTICA!", "bad");
+  else if(Math.random()<0.4) showFeedback("¡DAÑO EN LA RESERVA!", "bad");
+}
+
+/* ============================================================
+   RECOLECTABLES DE AGUA
+   ============================================================ */
+function spawnPickup(){
+  var typeKey = Math.random()<0.7 ? "drop" : "bottle";
+  var cfg=PICKUP_TYPES[typeKey];
+
+  var x,y,dist;
+  do{
+    x=0.12+Math.random()*0.76;
+    y=0.18+Math.random()*0.68;
+    var dx=0.5-x, dy=0.5-y;
+    dist=Math.sqrt(dx*dx+dy*dy);
+  } while(dist<0.20);
+
+  var pickup={
+    id:state.pickupIdSeq++,
+    type:typeKey,
+    x:x, y:y,
+    amount:Math.round(cfg.min + Math.random()*(cfg.max-cfg.min)),
+    el:null,
+    expiresAt:performance.now()+11000
+  };
+
+  var el=document.createElement("div");
+  el.className="pickup pickup-"+typeKey;
+  el.style.width="56px"; el.style.height="56px";
+  el.innerHTML='<div class="picon">'+cfg.icon+'</div>';
+  el.addEventListener("pointerdown", function(ev){
+    ev.stopPropagation();
+    collectPickup(pickup);
+  });
+  $("gameArea").appendChild(el);
+  pickup.el=el;
+  state.pickups.push(pickup);
+  renderPickup(pickup);
+}
+
+function renderPickup(pickup){
+  pickup.el.style.left=(pickup.x*100)+"%";
+  pickup.el.style.top=(pickup.y*100)+"%";
+}
+
+function removePickup(pickup, animateClass){
+  var idx=state.pickups.indexOf(pickup);
+  if(idx>=0) state.pickups.splice(idx,1);
+  if(animateClass){
+    pickup.el.classList.add(animateClass);
+    setTimeout(function(){ if(pickup.el && pickup.el.parentNode) pickup.el.parentNode.removeChild(pickup.el); }, 520);
+  } else if(pickup.el && pickup.el.parentNode){
+    pickup.el.parentNode.removeChild(pickup.el);
+  }
+}
+
+function collectPickup(pickup){
+  if(!state.running) return;
+  if(state.pickups.indexOf(pickup)<0) return;
+  state.water=clamp(state.water+pickup.amount, 0, state.waterMax);
+  removePickup(pickup, "pop");
+  showFeedback("¡AGUA RECOLECTADA! +"+pickup.amount+"%", "good");
+}
+
+function updatePickups(dt, gaW, gaH){
+  var now=performance.now();
+
+  state.pickupTimer-=dt*1000;
+  if(state.pickupTimer<=0 && state.pickups.length<2){
+    spawnPickup();
+    state.pickupTimer=5000+Math.random()*3000;
+  }
+
+  state.pickups.slice().forEach(function(pickup){
+    if(now>pickup.expiresAt){
+      removePickup(pickup, "fading");
+      return;
+    }
+    var pxDist = Math.sqrt(Math.pow((pickup.x-state.player.x)*gaW,2) + Math.pow((pickup.y-state.player.y)*gaH,2));
+    if(pxDist < 0.05*gaW){
+      collectPickup(pickup);
+    }
+  });
+}
+
+
+function doRepair(){
+  var now=performance.now();
+  if(now<state.repairReadyAt || !state.running) return;
+  state.sourceHP=clamp(state.sourceHP+state.repairAmount, 0, state.sourceHPMax);
+  state.repairReadyAt=now+state.repairCooldownMs;
+  showFeedback("¡REPARACIÓN EXITOSA!", "good");
+  var pEl=$("playerEl"); pEl.classList.remove("dmg");
+}
+
+function doShield(){
+  var now=performance.now();
+  if(now<state.shieldReadyAt || !state.running) return;
+  var cost=15*state.shieldCostMult;
+  if(state.water<cost){ showFeedback("¡AGUA INSUFICIENTE!", "bad"); return; }
+  state.water-=cost;
+  state.shieldActiveUntil=now+state.shieldDurationMs;
+  state.shieldReadyAt=now+6000;
+  showFeedback("¡FUENTE PROTEGIDA!", "good");
+}
+
+function doAbility(){
+  var now=performance.now();
+  if(now<state.abilityReadyAt || !state.running) return;
+  var cost=25;
+  if(state.water<cost){ showFeedback("¡AGUA INSUFICIENTE!", "bad"); return; }
+  state.water-=cost;
+  state.abilityReadyAt=now+8000;
+  state.enemies.slice().forEach(function(e){
+    attackEnemy(e, 32, false);
+    if(state.enemies.indexOf(e)>=0){
+      // empuje hacia atras
+      e.x=clamp(e.x + (e.x-0.5)*0.15, 0.02, 0.98);
+      e.y=clamp(e.y + (e.y-0.5)*0.15, 0.05, 0.95);
+      renderEnemy(e);
+    }
+  });
+  showFeedback("¡PULSO PURIFICADOR!", "good");
+}
+
+/* ============================================================
+   OLEADAS / NIVELES
+   ============================================================ */
+function buildSpawnQueue(waveCfg){
+  var q=[];
+  waveCfg.list.forEach(function(item){
+    for(var i=0;i<item.count;i++) q.push(item.type);
+  });
+  // barajar
+  for(var i=q.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var tmp=q[i]; q[i]=q[j]; q[j]=tmp;
+  }
+  return q;
+}
+
+function startWave(){
+  var lvl=LEVELS[state.levelIndex];
+  var wave=lvl.waves[state.waveIndex];
+  state.spawnQueue=buildSpawnQueue(wave);
+  state.totalInWave=state.spawnQueue.length;
+  state.spawnedInWave=0;
+  state.waveSpawnInterval=wave.spawnInterval;
+  state.spawnTimer=0;
+  state.waveActive=true;
+  showFeedback("¡OLEADA "+(state.waveIndex+1)+" — "+lvl.name+"!", "info");
+}
+
+function waveSpawnTick(dt){
+  if(!state.waveActive) return;
+  state.spawnTimer-=dt*1000;
+  if(state.spawnTimer<=0 && state.spawnQueue.length>0){
+    var type=state.spawnQueue.shift();
+    spawnEnemy(type);
+    state.spawnedInWave++;
+    state.spawnTimer=state.waveSpawnInterval;
+  }
+  if(state.spawnQueue.length===0 && state.enemies.length===0){
+    state.waveActive=false;
+    onWaveComplete();
+  }
+}
+
+function onWaveComplete(){
+  state.running=false;
+  var lvl=LEVELS[state.levelIndex];
+  var isLastWaveOfLevel = state.waveIndex >= lvl.waves.length-1;
+  var isLastLevel = state.levelIndex >= LEVELS.length-1;
+
+  if(isLastWaveOfLevel && isLastLevel){
+    endGame(true);
+    return;
+  }
+
+  var bonus = 50*(state.levelIndex+1);
+  state.score += bonus;
+  updateHUD();
+  var ga=$("gameArea");
+  ga.classList.remove("flash-good"); void ga.offsetWidth; ga.classList.add("flash-good");
+  showFeedback("¡OLEADA "+(state.waveIndex+1)+" SUPERADA! +"+bonus+" PTS", "good");
+
+  setTimeout(function(){
+    openUpgradeScreen(function(){
+      if(isLastWaveOfLevel){
+        state.levelIndex++;
+        state.waveIndex=0;
+      } else {
+        state.waveIndex++;
+      }
+      state.running=true;
+      startWave();
+    });
+  }, 1100);
+}
+
+function openUpgradeScreen(onDone){
+  var picks=[];
+  var pool=UPGRADE_POOL.slice();
+  for(var i=pool.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var tmp=pool[i]; pool[i]=pool[j]; pool[j]=tmp;
+  }
+  picks=pool.slice(0,3);
+
+  var lvl=LEVELS[state.levelIndex];
+  $("upgradeSubtitle").textContent = "PUNTOS: "+state.score+" · ELIGE UNA MEJORA PARA CONTINUAR";
+  var cardsEl=$("upgradeCards");
+  cardsEl.innerHTML="";
+  picks.forEach(function(u){
+    var card=document.createElement("div");
+    card.className="panel upgrade-card";
+    card.innerHTML='<div class="uicon">'+u.icon+'</div><div class="uname">'+u.name+'</div><div class="udesc">'+u.desc+'</div>';
+    card.addEventListener("click", function(){
+      u.apply(state);
+      showScreen("gameScreen");
+      onDone();
+    });
+    cardsEl.appendChild(card);
+  });
+  showScreen("upgradeScreen");
+}
+
+/* ============================================================
+   BUCLE PRINCIPAL
+   ============================================================ */
+function gameLoop(ts){
+  if(!state){ requestAnimationFrame(gameLoop); return; }
+  if(!state.lastFrame) state.lastFrame=ts;
+  var dt=(ts-state.lastFrame)/1000;
+  if(dt>0.12) dt=0.12; // evitar saltos grandes
+  state.lastFrame=ts;
+
+  if(state.running){
+    state.elapsedMs+=dt*1000;
+
+    updatePlayerPosition(dt);
+    waveSpawnTick(dt);
+
+    // consumo pasivo de agua
+    state.water=clamp(state.water-1.1*state.waterDrainMult*dt, 0, state.waterMax);
+
+    var gaEl=$("gameArea");
+    var gaW=gaEl.clientWidth, gaH=gaEl.clientHeight;
+    var slowRadiusPx = state.player.slowRadius*gaW;
+
+    updatePickups(dt, gaW, gaH);
+
+    // mover enemigos
+    state.enemies.slice().forEach(function(enemy){
+      var dx=0.5-enemy.x, dy=0.5-enemy.y;
+      var dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<0.065){
+        enemyReachesSource(enemy);
+        return;
+      }
+      var nx=dx/dist, ny=dy/dist;
+
+      var pxDist = Math.sqrt(Math.pow((enemy.x-state.player.x)*gaW,2) + Math.pow((enemy.y-state.player.y)*gaH,2));
+      var inSlowField = pxDist < slowRadiusPx;
+      var speedMult = inSlowField ? 0.32 : 1;
+      enemy.el.classList.toggle("slowed", inSlowField);
+
+      enemy.x+=nx*enemy.speed*speedMult*dt;
+      enemy.y+=ny*enemy.speed*speedMult*dt;
+      renderEnemy(enemy);
+
+      // daño de contacto directo con el jugador (cuerpo a cuerpo)
+      if(pxDist < 0.045*gaW){
+        attackEnemy(enemy, 14*dt, false);
+        $("playerEl").classList.add("dmg");
+      }
+    });
+
+    if(state.enemies.every(function(e){ 
+        var dx=0.5-e.x, dy=0.5-e.y;
+        return Math.sqrt(dx*dx+dy*dy) >= 0.06;
+      })){
+      // ninguno tocando: quitar tinte de daño tras un momento
+    }
+
+    if(state.sourceHP<=0){ endGame(false); }
+    else if(state.water<=0){ endGame(false); }
+
+    updateHUD();
+  }
+
+  requestAnimationFrame(gameLoop);
+}
+
+/* ============================================================
+   INICIO / FIN DE PARTIDA
+   ============================================================ */
+function startGame(){
+  state=freshState();
+  buildStars();
+  var ga=$("gameArea");
+  // limpiar enemigos y recolectables previos del DOM
+  ga.querySelectorAll(".enemy").forEach(function(e){ e.remove(); });
+  ga.querySelectorAll(".pickup").forEach(function(e){ e.remove(); });
+  showScreen("gameScreen");
+  state.running=true;
+  state.lastFrame=0;
+  updateHUD();
+  startWave();
+}
+
+function endGame(victory){
+  state.running=false;
+  state.enemies.slice().forEach(function(e){ removeEnemy(e,false); });
+  state.pickups.slice().forEach(function(p){ removePickup(p,false); });
+  if(victory){
+    $("vScore").textContent=state.score;
+    $("vTime").textContent=fmtTime(state.elapsedMs);
+    $("vLevel").textContent="4/4";
+    showScreen("victoryScreen");
+  } else {
+    $("dScore").textContent=state.score;
+    $("dLevel").textContent=(state.levelIndex+1)+"/4";
+    $("dWave").textContent=(state.waveIndex+1)+"/"+LEVELS[state.levelIndex].waves.length;
+    $("dTime").textContent=fmtTime(state.elapsedMs);
+    showScreen("defeatScreen");
+  }
+}
+
+/* ============================================================
+   EVENTOS DE ENTRADA
+   ============================================================ */
+window.addEventListener("keydown", function(e){
+  var k=e.key.toLowerCase();
+  if(["w","a","s","d","arrowup","arrowdown","arrowleft","arrowright"," ","spacebar"].indexOf(k)>=0){
+    e.preventDefault();
+  }
+  if(state) state.keys[k]=true;
+  if(k===" "||k==="spacebar"){ doAbility(); }
+});
+window.addEventListener("keyup", function(e){
+  var k=e.key.toLowerCase();
+  if(state) state.keys[k]=false;
+});
+
+$("startBtn").addEventListener("click", startGame);
+$("restartBtnVictory").addEventListener("click", function(){ showScreen("startScreen"); });
+$("restartBtnDefeat").addEventListener("click", function(){ showScreen("startScreen"); });
+
+$("btnRepair").addEventListener("click", doRepair);
+$("btnShield").addEventListener("click", doShield);
+$("btnAbility").addEventListener("click", doAbility);
+
+// mover jugador con clic/touch en el area (opcional, movimiento hacia el punto)
+$("gameArea").addEventListener("pointerdown", function(ev){
+  if(!state || !state.running) return;
+  if(ev.target.closest(".enemy")) return; // ya gestionado
+  var rect=$("gameArea").getBoundingClientRect();
+  var fx=(ev.clientX-rect.left)/rect.width;
+  var fy=(ev.clientY-rect.top)/rect.height;
+  state._moveTarget={x:clamp(fx,0.04,0.96), y:clamp(fy,0.1,0.94)};
+});
+
+// clear damage tint on player periodically
+setInterval(function(){
+  var pEl=$("playerEl");
+  if(pEl) pEl.classList.remove("dmg");
+}, 500);
+
+requestAnimationFrame(gameLoop);
+
+})();
+</script>
+</body>
+</html>
