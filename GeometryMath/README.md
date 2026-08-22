@@ -14,7 +14,7 @@
 
 ## 📖 Descripción General
 
-* **¿De qué trata?** **Geometry Math** combina la dinámica frenética de los juegos de plataformas retro con el cálculo mental en tiempo real. El jugador controla a un cubo que avanza sin detenerse a través de un escenario neón mientras enfrenta operaciones matemáticas continuas.
+* **¿De qué trata?:** **Geometry Math** combina la dinámica frenética de los juegos de plataformas retro con el cálculo mental en tiempo real. El jugador controla a un cubo que avanza sin detenerse a través de un escenario neón mientras enfrenta operaciones matemáticas continuas.
 * **Objetivo del jugador:** Resolver **10 operaciones matemáticas consecutivas** (sumas, restas, multiplicaciones y divisiones) sin cometer ningún error ni agotar la barra de tiempo.
 * **Mecánica principal:** El personaje oscila constantemente entre 4 carriles verticales. El jugador debe calcular la respuesta matemática en pantalla y presionar la acción de salto en el instante exacto en que el cubo esté alineado con el bloque que contiene la respuesta correcta.
 
@@ -37,21 +37,13 @@
 
 ## 🖼️ Capturas de Pantalla
 
-> **Nota:** Guarda tus imágenes dentro de `GeometryMath/assets/` con estos nombres exactos para que carguen automáticamente.
-
-### 1. Pantalla Inicial
-
-![Pantalla Inicial](img/inicioGM.png)
-
-### 2. Momento de Gameplay y Mecánica Principal
-*Subir imagen:* `assets/gameplay.png` (Muestra al cubo desplazándose entre los 4 carriles con la barra de tiempo activa y la operación matemática).
-
-![Gameplay y Mecánica](assets/gameplay.png)
-
-### 3. Pantalla de Victoria
-*Subir imagen:* `assets/pantalla-victoria.png` (Muestra el mensaje de ¡GANASTE! con el puntaje final 10/10).
-
-![Pantalla de Victoria](assets/pantalla-victoria.png)
+| Vistas del Videojuego |
+| :--- |
+| **1. Pantalla Inicial**<br>![Pantalla Inicial](img/inicioGM.png) |
+| **2. Momento de Gameplay**<br>![Momento de Gameplay](img/gameplayGM.png) |
+| **3. Mecánica Principal**<br>![Mecánica Principal](img/mecanicaGM.png) |
+| **4. Pantalla de Victoria**<br>![Pantalla de Victoria](img/victoriaGM.png) |
+| **5. Pantalla de Derrota**<br>![Pantalla de Derrota](img/derrotaGM.png) |
 
 ---
 
@@ -65,8 +57,12 @@
 
 ## 🤖 Elementos Desarrollados con Apoyo de IA
 
-* **Algoritmo de Distractores:** Optimización de la función `makeDistractors` en JS para generar respuestas incorrectas creíbles y cercanas al resultado real.
-* **Efectos Neón y Animación:** Apoyo en la generación de reglas CSS para las animaciones de vibración (`shakeBad`), destello (`pulseGood`) y giro del cubo (`spinCube`).
+* **Diseño Conceptual y Estética (Gemini):**
+  * Definición de la estructura general, temática y flujo de juego.
+  * Generación de la paleta de colores y estilos CSS para lograr el acabado visual neón/cyberpunk.
+* **Programación y Construcción de Código (Claude):**
+  * Desarrollo integral de la arquitectura del juego en HTML5 y JavaScript.
+  * Implementación del bucle principal (`gameLoop`), gestión del temporizador y algoritmo de generación de distractores matemáticos.
 
 ---
 
