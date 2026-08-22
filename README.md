@@ -1,8 +1,6 @@
 # Portafolio de Game Development AMK | DevLog & Prototipos
 
-<p align="center">
-  <img src="assets/logo.jpg" alt="Logo AMK" width="380" height="350"/>
-</p>
+<p align="center"><img src="assets/logo.jpg" alt="Logo AMK" width="380" height="350"/></p>
 
  ![Game Dev Banner](https://img.shields.io/badge/Status-Active_Developer-brightgreen?style=for-the-badge&logo=gamepad)
 ## 👤 Sobre Mí
@@ -36,7 +34,7 @@ Hola...! Soy **Andres Adonay Mamani Kantuta**, estudiante de la materia de **Gam
 ---
 
 ### 3. 🏃 Nutri-Run: Camino al Colegio
-![Nutri-Run Gameplay](NutriRun/img/gameplayNR.png)
+<p align="center"><img src="NutriRun/img/gameplayNR.png" alt="Logo AMK" width="850" height="750"/></p>
 
 * **Descripción:** Endless runner educativo donde debes correr hacia el colegio seleccionando alimentos saludables y esquivando comida chatarra para llegar con vitalidad.
 * **Género:** Arcade / Endless Runner 2D / Educativo
