@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Geometry Math</title>
+<style>
+  :root{
+    --lane-h: 80px;
+    --neon-cyan:#00e5ff;
+    --neon-magenta:#ff2fd0;
+    --neon-yellow:#ffe600;
+    --neon-green:#39ff6a;
+    --bg-dark:#0b0e23;
+    --panel:#141834;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;height:100%;
+    background: radial-gradient(circle at 50% 0%, #1c2350 0%, #05060f 75%);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color:#fff;
+    overflow-x:hidden;
+    -webkit-tap-highlight-color: transparent;
+    user-select:none;
+  }
+  #app{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:16px;
+  }
+  .screen{
+    width:100%;
+    max-width:920px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+  }
+  .title{
+    font-size: clamp(30px,7vw,54px);
+    font-weight:900;
+    letter-spacing:3px;
+    margin:6px 0 0 0;
+    text-shadow: 0 0 10px var(--neon-cyan), 0 0 24px var(--neon-cyan);
+    color:#fff;
+  }
+  .title span{
+    color:var(--neon-yellow);
+    text-shadow: 0 0 10px var(--neon-yellow), 0 0 24px var(--neon-yellow);
+  }
+  .subtitle{
+    font-size: clamp(13px,2.4vw,17px);
+    opacity:0.85;
+    max-width:600px;
+  }
+  .rules{
+    background: var(--panel);
+    border:2px solid #2d356e;
+    border-radius:14px;
+    padding:18px 22px;
+    box-shadow: 0 0 24px rgba(0,229,255,0.15) inset;
+    max-width:560px;
+  }
+  .rules p{
+    margin:8px 0;
+    font-size: clamp(13px,2.3vw,15px);
+    text-align:left;
+  }
+  .btn{
+    cursor:pointer;
+    border:none;
+    padding:16px 40px;
+    font-size:20px;
+    font-weight:800;
+    letter-spacing:2px;
+    border-radius:50px;
+    background: linear-gradient(135deg, var(--neon-cyan), #0077ff);
+    color:#001018;
+    box-shadow: 0 0 18px rgba(0,229,255,0.7), 0 6px 0 #005f8c;
+    transition: transform .1s ease;
+  }
+  .btn:active{ transform: translateY(4px); box-shadow:0 0 18px rgba(0,229,255,0.7), 0 2px 0 #005f8c;}
+
+  /* ---------- GAME SCREEN ---------- */
+  #game-screen{ gap:10px; }
+  #hud{
+    width:100%;
+    max-width:900px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+    background:var(--panel);
+    border:2px solid #2d356e;
+    border-radius:12px;
+    padding:10px 16px;
+  }
+  #question-counter, #score-text{
+    font-weight:700;
+    font-size:14px;
+    color:#a9b4ff;
+    white-space:nowrap;
+  }
+  #operation-text{
+    font-size: clamp(22px,4.5vw,34px);
+    font-weight:900;
+    color:var(--neon-yellow);
+    text-shadow:0 0 10px rgba(255,230,0,0.6);
+    flex:1;
+    text-align:center;
+    min-width:200px;
+  }
+  #timer-bar-wrap{
+    width:100%;
+    max-width:900px;
+    height:14px;
+    background:#1a1f45;
+    border-radius:8px;
+    border:2px solid #2d356e;
+    overflow:hidden;
+  }
+  #timer-bar{
+    height:100%;
+    width:100%;
+    background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+    transition: width .08s linear, background-color .2s;
+    border-radius:8px;
+  }
+  #timer-bar.warn{ background: linear-gradient(90deg, #ff9a00, #ff2fd0); }
+  #timer-bar.danger{ background: linear-gradient(90deg, #ff2fd0, #ff0033); }
+
+  #stage{
+    position:relative;
+    width:100%;
+    max-width:900px;
+    height: calc(var(--lane-h) * 4);
+    background:
+      linear-gradient(#0e1230, #171c46 60%, #232a63);
+    border:4px solid #3a44a8;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow: 0 0 30px rgba(58,68,168,0.5);
+  }
+  /* pixel mountains decoration */
+  #stage::before{
+    content:"";
+    position:absolute;
+    left:0; right:0; top:0; height:60%;
+    background-image:
+      linear-gradient(135deg, transparent 48%, rgba(255,255,255,0.03) 50%, transparent 52%),
+      radial-gradient(circle at 15% 20%, rgba(255,255,255,0.05) 0 6px, transparent 7px),
+      radial-gradient(circle at 70% 10%, rgba(255,255,255,0.05) 0 4px, transparent 5px),
+      radial-gradient(circle at 85% 30%, rgba(255,255,255,0.05) 0 5px, transparent 6px);
+    pointer-events:none;
+  }
+  .lane-line{
+    position:absolute;
+    left:0; right:0;
+    height:2px;
+    background: repeating-linear-gradient(90deg, rgba(255,255,255,0.12) 0 14px, transparent 14px 28px);
+  }
+  .ground-strip{
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height:6px;
+    background: repeating-linear-gradient(90deg, var(--neon-yellow) 0 18px, #222 18px 36px);
+    animation: scrollGround 0.6s linear infinite;
+  }
+  @keyframes scrollGround{
+    from{ background-position-x:0; }
+    to{ background-position-x:-36px; }
+  }
+
+  .block{
+    position:absolute;
+    width:88px;
+    height:56px;
+    right:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    font-weight:900;
+    font-size:20px;
+    color:#04121a;
+    border:3px solid rgba(255,255,255,0.6);
+    transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+  }
+  .block[data-lane="0"]{ background: var(--neon-cyan); box-shadow:0 0 14px var(--neon-cyan); }
+  .block[data-lane="1"]{ background: var(--neon-magenta); box-shadow:0 0 14px var(--neon-magenta); }
+  .block[data-lane="2"]{ background: var(--neon-yellow); box-shadow:0 0 14px var(--neon-yellow); }
+  .block[data-lane="3"]{ background: var(--neon-green); box-shadow:0 0 14px var(--neon-green); }
+  .block.correct-flash{
+    animation: pulseGood .45s ease;
+    filter: brightness(1.6);
+  }
+  .block.wrong-flash{
+    animation: shakeBad .45s ease;
+    filter: brightness(0.6) grayscale(0.3);
+  }
+  @keyframes pulseGood{
+    0%{ transform:scale(1); } 50%{ transform:scale(1.25); } 100%{ transform:scale(1.05); }
+  }
+  @keyframes shakeBad{
+    0%,100%{ transform:translateX(0); }
+    20%{ transform:translateX(-6px) rotate(-4deg); }
+    40%{ transform:translateX(6px) rotate(4deg); }
+    60%{ transform:translateX(-4px); }
+    80%{ transform:translateX(4px); }
+  }
+
+  #player{
+    position:absolute;
+    width:46px;
+    height:46px;
+    left:6px;
+    top:17px;
+    border-radius:10px;
+    background: linear-gradient(145deg, #ffb84d, #ff5e00);
+    box-shadow: 0 0 16px rgba(255,140,0,0.8), inset 0 0 8px rgba(255,255,255,0.4);
+    border: 3px solid #fff2d9;
+    z-index:5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition: top .25s ease;
+  }
+  #player.locking{
+    transition: left .45s cubic-bezier(.25,.8,.3,1), top .45s ease;
+  }
+  #player-face{
+    width:10px;height:10px;background:#221000;border-radius:2px;
+    box-shadow: 14px 0 0 #221000;
+  }
+  #player.spin{
+    animation: spinCube .45s linear;
+  }
+  @keyframes spinCube{
+    0%{ transform:rotate(0deg) scale(1); }
+    50%{ transform:rotate(180deg) scale(1.15); }
+    100%{ transform:rotate(360deg) scale(1); }
+  }
+  #player.dead{
+    background: linear-gradient(145deg,#ff5b5b,#8a0000);
+    box-shadow:0 0 20px #ff0000;
+  }
+  #player.win{
+    background: linear-gradient(145deg,#9dffb0,#00c853);
+    box-shadow:0 0 20px #00ff66;
+  }
+
+  #feedback{
+    position:absolute;
+    left:0; right:0; top:40%;
+    text-align:center;
+    font-size:clamp(24px,6vw,42px);
+    font-weight:900;
+    letter-spacing:2px;
+    opacity:0;
+    transform: scale(0.7);
+    transition: opacity .18s ease, transform .18s ease;
+    pointer-events:none;
+    text-shadow: 0 0 10px rgba(0,0,0,0.8);
+  }
+  #feedback.show{ opacity:1; transform:scale(1); }
+  #feedback.good{ color: var(--neon-green); text-shadow:0 0 18px var(--neon-green); }
+  #feedback.bad{ color:#ff3355; text-shadow:0 0 18px #ff3355; }
+
+  #btn-jump{
+    margin-top:6px;
+    cursor:pointer;
+    border:none;
+    padding:16px 0;
+    width:100%;
+    max-width:900px;
+    font-size:18px;
+    font-weight:900;
+    letter-spacing:2px;
+    border-radius:14px;
+    background: linear-gradient(135deg, #ff5e00, #ffb400);
+    color:#1a0900;
+    box-shadow: 0 6px 0 #a03d00, 0 0 16px rgba(255,140,0,0.6);
+  }
+  #btn-jump:active{ transform:translateY(4px); box-shadow:0 2px 0 #a03d00; }
+
+  #win-screen #final-score{
+    font-size:clamp(40px,10vw,70px);
+    font-weight:900;
+    color:var(--neon-green);
+    text-shadow:0 0 20px var(--neon-green);
+    margin:0;
+  }
+
+  [hidden]{ display:none !important; }
+
+  @media (max-width:520px){
+    :root{ --lane-h: 62px; }
+    #player{ width:38px; height:38px; top:12px; }
+    .block{ width:70px; height:44px; font-size:16px; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- START SCREEN -->
+  <div id="start-screen" class="screen">
+    <h1 class="title">GEOMETRY <span>MATH</span></h1>
+    <p class="subtitle">Un runner de plataformas donde las matemáticas son tu única arma.</p>
+    <div class="rules">
+      <p>🧮 Resuelve <b>10 operaciones</b> (sumas, restas, multiplicaciones y divisiones).</p>
+      <p>⬆️ Presiona <b>ESPACIO</b>, <b>flecha arriba</b> o toca/haz clic para saltar.</p>
+      <p>🎯 Tu cubo salta entre 4 carriles: bloquea el carril con la <b>respuesta correcta</b> antes de llegar al muro.</p>
+      <p>⏱️ Tienes un tiempo límite por pregunta, ¡cada vez más ajustado!</p>
+      <p>💥 Si fallas o se acaba el tiempo, <b>reinicias desde la pregunta 1</b>.</p>
+      <p>🏆 Acierta las 10 seguidas para ganar.</p>
+    </div>
+    <button id="btn-start" class="btn">JUGAR</button>
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div id="game-screen" class="screen" hidden>
+    <div id="hud">
+      <div id="question-counter">Pregunta 1/10</div>
+      <div id="operation-text">? + ? = ?</div>
+      <div id="score-text">Puntaje: 0/10</div>
+    </div>
+    <div id="timer-bar-wrap"><div id="timer-bar"></div></div>
+
+    <div id="stage">
+      <div class="lane-line" style="top:80px"></div>
+      <div class="lane-line" style="top:160px"></div>
+      <div class="lane-line" style="top:240px"></div>
+      <div class="ground-strip"></div>
+
+      <div class="block" data-lane="0">?</div>
+      <div class="block" data-lane="1">?</div>
+      <div class="block" data-lane="2">?</div>
+      <div class="block" data-lane="3">?</div>
+
+      <div id="player"><div id="player-face"></div></div>
+
+      <div id="feedback"></div>
+    </div>
+
+    <button id="btn-jump">⬆ SALTAR</button>
+  </div>
+
+  <!-- WIN SCREEN -->
+  <div id="win-screen" class="screen" hidden>
+    <h1 class="title">¡GANASTE! 🎉</h1>
+    <p id="final-score">10/10</p>
+    <p class="subtitle">¡Excelente trabajo! Dominaste las 10 operaciones sin fallar.</p>
+    <button id="btn-restart" class="btn">JUGAR DE NUEVO</button>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---------------------------------------------------------
+  // DOM refs
+  // ---------------------------------------------------------
+  const startScreen = document.getElementById('start-screen');
+  const gameScreen   = document.getElementById('game-screen');
+  const winScreen    = document.getElementById('win-screen');
+
+  const btnStart   = document.getElementById('btn-start');
+  const btnJump    = document.getElementById('btn-jump');
+  const btnRestart = document.getElementById('btn-restart');
+
+  const questionCounterEl = document.getElementById('question-counter');
+  const operationTextEl   = document.getElementById('operation-text');
+  const scoreTextEl       = document.getElementById('score-text');
+  const timerBarEl        = document.getElementById('timer-bar');
+  const finalScoreEl      = document.getElementById('final-score');
+
+  const player   = document.getElementById('player');
+  const feedback = document.getElementById('feedback');
+  const blocks   = Array.from(document.querySelectorAll('.block'));
+
+  const LANE_H = 80; // must match CSS --lane-h base value used for JS positioning (desktop)
+  const STAGE_W_FALLBACK = 900;
+
+  // ---------------------------------------------------------
+  // State
+  // ---------------------------------------------------------
+  let state = {
+    questionIndex: 0,
+    score: 0,
+    questions: [],
+    correctLane: 0,
+    locked: false,
+    startTime: 0,
+    gen: 0,          // increments every startQuestion, used to invalidate stale loops
+    running: false
+  };
+
+  let rafId = null;
+
+  // ---------------------------------------------------------
+  // Math question generation
+  // ---------------------------------------------------------
+  function randInt(min, max){
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function shuffle(arr){
+    for(let i = arr.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function makeDistractors(correct, spread, count){
+    const set = new Set([correct]);
+    const out = [];
+    let attempts = 0;
+    while(out.length < count && attempts < 200){
+      attempts++;
+      const delta = randInt(1, spread) * (Math.random() < 0.5 ? -1 : 1);
+      const val = correct + delta;
+      if(val >= 0 && !set.has(val)){
+        set.add(val);
+        out.push(val);
+      }
+    }
+    // fallback in case of collisions running out
+    let filler = correct + spread + 1;
+    while(out.length < count){
+      if(!set.has(filler)){ set.add(filler); out.push(filler); }
+      filler++;
+    }
+    return out;
+  }
+
+  // time limit progression: 10s -> up to ~14/15s as difficulty increases
+  function timeLimitForIndex(idx){
+    return 10 + Math.floor(idx / 2); // idx0,1:10 | 2,3:11 | 4,5:12 | 6,7:13 | 8,9:14
+  }
+
+  function buildQuestion(idx){
+    let a, b, op, result, spread;
+
+    switch(idx){
+      case 0: // suma fácil
+        op = '+'; a = randInt(2, 15); b = randInt(2, 15);
+        result = a + b; spread = 4;
+        break;
+      case 1: // resta fácil
+        op = '-'; a = randInt(10, 25); b = randInt(1, a - 1);
+        result = a - b; spread = 4;
+        break;
+      case 2: // suma un poco mayor
+        op = '+'; a = randInt(15, 45); b = randInt(15, 45);
+        result = a + b; spread = 6;
+        break;
+      case 3: // multiplicación tablas pequeñas
+        op = '×'; a = randInt(2, 5); b = randInt(2, 9);
+        result = a * b; spread = 5;
+        break;
+      case 4: // resta con números más grandes
+        op = '-'; a = randInt(40, 90); b = randInt(10, 39);
+        result = a - b; spread = 7;
+        break;
+      case 5: // multiplicación tablas mayores
+        op = '×'; a = randInt(6, 9); b = randInt(2, 9);
+        result = a * b; spread = 7;
+        break;
+      case 6: // división exacta fácil
+        b = randInt(2, 9); result = randInt(2, 9); a = b * result;
+        op = '÷'; spread = 4;
+        break;
+      case 7: // multiplicación dos dígitos x un dígito
+        op = '×'; a = randInt(11, 15); b = randInt(2, 6);
+        result = a * b; spread = 9;
+        break;
+      case 8: // división con números más grandes
+        b = randInt(3, 12); result = randInt(6, 12); a = b * result;
+        op = '÷'; spread = 8;
+        break;
+      default: // idx 9: mixto y más difícil
+        if(Math.random() < 0.5){
+          op = '×'; a = randInt(12, 18); b = randInt(3, 9);
+          result = a * b; spread = 10;
+        } else {
+          b = randInt(4, 14); result = randInt(8, 14); a = b * result;
+          op = '÷'; spread = 10;
+        }
+        break;
+    }
+
+    const distractors = makeDistractors(result, spread, 3);
+    const answers = shuffle([result, ...distractors]);
+    const correctLane = answers.indexOf(result);
+
+    return {
+      text: `${a} ${op} ${b} = ?`,
+      answers,
+      correctLane,
+      timeLimit: timeLimitForIndex(idx)
+    };
+  }
+
+  function generateQuestions(){
+    const arr = [];
+    for(let i = 0; i < 10; i++){
+      arr.push(buildQuestion(i));
+    }
+    return arr;
+  }
+
+  // ---------------------------------------------------------
+  // UI helpers
+  // ---------------------------------------------------------
+  function laneTop(laneIndex, height){
+    return laneIndex * LANE_H + (LANE_H - height) / 2;
+  }
+
+  function updateHUD(){
+    const idx = state.questionIndex;
+    questionCounterEl.textContent = `Pregunta ${idx + 1}/10`;
+    operationTextEl.textContent = state.questions[idx].text;
+    scoreTextEl.textContent = `Puntaje: ${state.score}/10`;
+  }
+
+  function setupBlocksForQuestion(){
+    const q = state.questions[state.questionIndex];
+    blocks.forEach((blockEl) => {
+      const lane = parseInt(blockEl.dataset.lane, 10);
+      blockEl.textContent = q.answers[lane];
+      blockEl.style.top = laneTop(lane, 56) + 'px';
+      blockEl.classList.remove('correct-flash', 'wrong-flash');
+    });
+  }
+
+  function showFeedback(text, type){
+    feedback.textContent = text;
+    feedback.className = 'show ' + type;
+    setTimeout(() => {
+      feedback.classList.remove('show');
+    }, 850);
+  }
+
+  // ---------------------------------------------------------
+  // Game flow
+  // ---------------------------------------------------------
+  function startGame(){
+    state.questionIndex = 0;
+    state.score = 0;
+    state.questions = generateQuestions();
+    startScreen.hidden = true;
+    winScreen.hidden = true;
+    gameScreen.hidden = false;
+    player.classList.remove('dead', 'win');
+    startQuestion(0);
+  }
+
+  function startQuestion(idx){
+    state.gen++;
+    state.locked = false;
+    state.correctLane = state.questions[idx].correctLane;
+
+    updateHUD();
+    setupBlocksForQuestion();
+
+    player.classList.remove('locking', 'spin', 'dead', 'win');
+    player.style.left = '6px';
+    player.style.top = laneTop(0, 46) + 'px';
+
+    timerBarEl.style.width = '100%';
+    timerBarEl.classList.remove('warn', 'danger');
+
+    state.startTime = performance.now();
+    state.running = true;
+
+    if(rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame((ts) => gameLoop(ts, state.gen));
+  }
+
+  function currentLaneFromElapsed(elapsedMs){
+    return Math.floor(elapsedMs / 420) % 4;
+  }
+
+  function gameLoop(ts, gen){
+    if(gen !== state.gen || !state.running) return;
+    if(state.locked){ return; } // waiting for lock animation callback
+
+    const q = state.questions[state.questionIndex];
+    const elapsed = ts - state.startTime;
+    const durationMs = q.timeLimit * 1000;
+    const frac = Math.min(elapsed / durationMs, 1);
+
+    // move player forward (progress towards the wall)
+    const stageWidth = document.getElementById('stage').clientWidth || STAGE_W_FALLBACK;
+    const maxLeft = stageWidth - 100; // leave room before the blocks
+    const leftPx = 6 + frac * (maxLeft - 6);
+    player.style.left = leftPx + 'px';
+
+    // cycle lanes
+    const laneIdx = currentLaneFromElapsed(elapsed);
+    player.style.top = laneTop(laneIdx, 46) + 'px';
+
+    // timer bar
+    const remainingFrac = 1 - frac;
+    timerBarEl.style.width = (remainingFrac * 100) + '%';
+    timerBarEl.classList.toggle('warn', remainingFrac <= 0.45 && remainingFrac > 0.2);
+    timerBarEl.classList.toggle('danger', remainingFrac <= 0.2);
+
+    if(frac >= 1){
+      lockAnswer(laneIdx, gen); // time ran out -> forced lock on current lane
+      return;
+    }
+
+    rafId = requestAnimationFrame((t) => gameLoop(t, gen));
+  }
+
+  function handleJumpInput(){
+    if(!state.running || state.locked) return;
+    const elapsed = performance.now() - state.startTime;
+    const laneIdx = currentLaneFromElapsed(elapsed);
+    lockAnswer(laneIdx, state.gen);
+  }
+
+  function lockAnswer(laneIdx, gen){
+    if(gen !== state.gen) return;
+    state.locked = true;
+    if(rafId) cancelAnimationFrame(rafId);
+
+    const stageWidth = document.getElementById('stage').clientWidth || STAGE_W_FALLBACK;
+    const finalLeft = stageWidth - 100;
+
+    player.classList.add('locking', 'spin');
+    player.style.left = finalLeft + 'px';
+    player.style.top = laneTop(laneIdx, 46) + 'px';
+
+    setTimeout(() => {
+      if(gen !== state.gen) return;
+      resolveAnswer(laneIdx === state.correctLane, laneIdx);
+    }, 460);
+  }
+
+  function resolveAnswer(isCorrect, laneIdx){
+    const blockEl = blocks.find(b => parseInt(b.dataset.lane, 10) === laneIdx);
+
+    if(isCorrect){
+      if(blockEl) blockEl.classList.add('correct-flash');
+      player.classList.remove('spin');
+      showFeedback('¡CORRECTO! +1', 'good');
+      state.score++;
+      updateHUD();
+
+      const nextIdx = state.questionIndex + 1;
+      state.running = false;
+      setTimeout(() => {
+        if(nextIdx >= 10){
+          winGame();
+        } else {
+          state.questionIndex = nextIdx;
+          startQuestion(nextIdx);
+        }
+      }, 900);
+
+    } else {
+      if(blockEl) blockEl.classList.add('wrong-flash');
+      player.classList.remove('spin');
+      player.classList.add('dead');
+      showFeedback('¡INCORRECTO! Reiniciando...', 'bad');
+      state.running = false;
+
+      setTimeout(() => {
+        state.questionIndex = 0;
+        state.score = 0;
+        player.classList.remove('dead');
+        startQuestion(0);
+      }, 1300);
+    }
+  }
+
+  function winGame(){
+    gameScreen.hidden = true;
+    winScreen.hidden = false;
+    finalScoreEl.textContent = `${state.score}/10`;
+  }
+
+  function resetToStart(){
+    winScreen.hidden = true;
+    startGame();
+  }
+
+  // ---------------------------------------------------------
+  // Input listeners
+  // ---------------------------------------------------------
+  btnStart.addEventListener('click', startGame);
+  btnRestart.addEventListener('click', resetToStart);
+
+  btnJump.addEventListener('click', (e) => {
+    e.preventDefault();
+    handleJumpInput();
+  });
+  btnJump.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    handleJumpInput();
+  }, { passive:false });
+
+  document.addEventListener('keydown', (e) => {
+    if(e.code === 'Space' || e.code === 'ArrowUp'){
+      e.preventDefault();
+      handleJumpInput();
+    }
+  });
+
+  document.getElementById('stage').addEventListener('click', handleJumpInput);
+
+})();
+</script>
+</body>
+</html>
