@@ -40,6 +40,6 @@ Hola...! Soy **Andres Adonay Mamani Kantuta**, estudiante de la materia de **Gam
 
 * **Descripción:** Endless runner educativo donde debes correr hacia el colegio seleccionando alimentos saludables y esquivando comida chatarra para llegar con vitalidad.
 * **Género:** Arcade / Endless Runner 2D / Educativo
-* **Enlaces:** [Ver Detalles del Juego](./NutriRun/) | [Jugar Ahora en Navegador!](https://andremka.github.io/AMK-Game-Development/NutriRun/Nutrirun.html)
+* **Enlaces:** [Ver Detalles del Juego](./NutriRun/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/NutriRun/Nutrirun.html)
 
 ---
