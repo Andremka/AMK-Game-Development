@@ -17,20 +17,18 @@ Hola...! Soy **Andres Adonay Mamani Kantuta**, estudiante de la materia de **Gam
 ## 🕹️ Galería de Videojuegos
 
 ### 1. Geometry Math
-![Gameplay](/GeometryMath/img/gameplay2GM.png)
+<p align="center"><img src="/GeometryMath/img/gameplay2GM.png" alt="Logo AMK" width="850" height="750"/></p>
 
 * **Descripción:** Runner educativo donde debes resolver operaciones matemáticas en tiempo real antes de impactar contra los bloques de respuesta.
 * **Género:** Arcade / Puzzle Educativo / Runner
 * **Tecnología:** HTML5 / CSS3 / JavaScript (Vanilla)
-* [Ver Detalles del Juego](./GeometryMath/)
-* [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/GeometryMath/GeometryMath.html) 
+* **Enlaces:** [Ver Detalles del Juego](./GeometryMath/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/GeometryMath/GeometryMath.html) 
 
 ---
 
-### 2. [Nombre del Juego 2]
-![Gameplay](juego-2/media/gameplay.png)
+### 2. ♻️ EcoSort: Desafío de Reciclaje
+<p align="center"><img src="/EcoSort/img/gameplayES.png" alt="Logo AMK" width="850" height="750"/></p>
 
-* **Descripción:** Breve explicación del objetivo y dinámica del juego.
-* **Género:** Platformer 2D
-* **Tecnología:** Python / Pygame
-* **Enlaces:** [Ver Código del Proyecto](./juego-2/) | [🎮 Probar Juego Online](https://...)
+* **Descripción:** Videojuego educativo donde debes clasificar residuos en tiempo real dirigiendo su caída hacia el contenedor correcto antes de que toquen el suelo[cite: 1].
+* **Género:** Arcade / Educativo / Habilidad[cite: 1]
+* **Enlaces:** [Ver Detalles del Juego](./EcoSort/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/EcoSort/)
