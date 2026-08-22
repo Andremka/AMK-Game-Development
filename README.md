@@ -58,7 +58,7 @@ Apasionado por la tecnología y la creación de experiencias digitales interacti
 
 * **Descripción:** Videojuego de estrategia y acción en tiempo real donde debes proteger la última fuente de agua potable controlando a un guardián con campo de ralentización, habilidades especiales y recolección de insumos.
 * **Género:** Arcade / Estrategia / Supervivencia
-* **Enlaces:** [Ver Detalles del Juego](./NutriRun/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/WaterGuardian/WaterGuardian.html)
+* **Enlaces:** [Ver Detalles del Juego](./WaterGuardian/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/WaterGuardian/WaterGuardian.html)
 
 ---
 
