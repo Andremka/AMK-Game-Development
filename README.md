@@ -41,3 +41,11 @@ Hola...! Soy **Andres Adonay Mamani Kantuta**, estudiante de la materia de **Gam
 * **Enlaces:** [Ver Detalles del Juego](./NutriRun/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/NutriRun/NutriRun.html)
 
 ---
+
+### 4. 💧 Water Guardian: La Última Reserva
+<p align="center"><img src="WaterGuardian/img/gameplayWG.png" alt="Logo AMK" width="850" height="750"/></p>
+* **Descripción:** Videojuego de estrategia y acción en tiempo real donde debes proteger la última fuente de agua potable controlando a un guardián con campo de ralentización, habilidades especiales y recolección de insumos.
+* **Género:** Arcade / Estrategia / Supervivencia
+* **Enlaces:** [Ver Detalles del Juego](./NutriRun/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/WaterGuardian/WaterGuardian.html)
+
+---
