@@ -59,6 +59,6 @@ Hola...! Soy **Andres Adonay Mamani Kantuta**, estudiante de la materia de **Gam
 
 * **Género:** Narrativo / Puzzle / Aventura Interactiva
 
-* **Enlaces:** [Ver Detalles del Juego](./PesoDelSilencio/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/PesoDelSilencio/PesoDelSilencio.html)
+* **Enlaces:** [Ver Detalles del Juego](./PesoDelSilencio/) | [Jugar Ahora!](https://andremka.github.io/AMK-Game-Development/PesoDelSilencio/Peso%20Del%20Silencio.html)
 
 ---
